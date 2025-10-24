@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/CSS/form.css";
 import Validation from "../Components/Validation";
-import axios from 'axios'
+import axios from "axios";
+import { toast } from "react-toastify";
 const Register = () => {
   const [values, setValues] = useState({
     name: "",
@@ -10,6 +11,7 @@ const Register = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [serverErrors, setServerErrors] = useState([]);
   const handleInput = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
@@ -17,8 +19,20 @@ const Register = () => {
     e.preventDefault();
     const errrs = Validation(values);
     setErrors(errrs);
-    if(errors.name === '' && errors.password === '' && errors.email === ''){
-      
+    if (errors.name === "" && errors.password === "" && errors.email === "") {
+      axios
+        .post("", values)
+        .then((res) => {
+          console.log(res);
+          toast.success("Registered Successfully", {
+            position: 'top-center',
+            autoClose: 4000,
+            hideProgressBar: false
+          });
+        })
+        .catch((err) => {console.log(err)
+
+        });
     }
   };
   return (
@@ -37,9 +51,7 @@ const Register = () => {
             placeholder="Enter Name"
             className="form-control"
           />
-          {
-            errors.name && <i className="form-error">{errors.name}</i>
-          }
+          {errors.name && <i className="form-error">{errors.name}</i>}
         </div>
         <div className="form-group">
           <label htmlFor="email" className="form-label">
@@ -54,9 +66,7 @@ const Register = () => {
             className="form-control"
             autoComplete="off"
           />
-          {
-            errors.email && <i className="form-error">{errors.email}</i>
-          }
+          {errors.email && <i className="form-error">{errors.email}</i>}
         </div>
         <div className="form-group">
           <label htmlFor="password" className="form-label">
@@ -71,9 +81,7 @@ const Register = () => {
             className="form-control"
             autoComplete="off"
           />
-          {
-            errors.password && <i className="form-error">{errors.password}</i>
-          }
+          {errors.password && <i className="form-error">{errors.password}</i>}
         </div>
         <button type="submit" className="form-btn">
           Register
