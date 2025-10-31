@@ -21,3 +21,7 @@ client libraries npm install axios react-icons react-router-dom react-spinners r
  sweetalert2 sweetalert2-react-content
 
  server libraries bcrypt cors dotenv express express-validator jsonwebtoken mongoose nodemon 
+
+
+
+ how to run mongodb with the data directory path: sudo mongod --dbpath=/Users/user/data/db 
